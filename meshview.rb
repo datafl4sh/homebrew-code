@@ -1,10 +1,7 @@
-# Documentation: https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Formula-Cookbook.md
-#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-
 class Meshview < Formula
-  desc ""
-  homepage ""
+  desc "Viewer for netgen meshes"
+  homepage "https://github.com/datafl4sh/meshview"
+  head "https://github.com/datafl4sh/meshview.git"
   url "https://github.com/datafl4sh/meshview/archive/0.1.tar.gz"
   version "0.1"
   sha256 "3ae89cf7063c3118323d595feefc9358ae346a9192b2c00ef8a5d855543d3115"

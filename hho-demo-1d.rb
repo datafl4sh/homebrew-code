@@ -1,6 +1,7 @@
 class HhoDemo1d < Formula
   desc "Hybrid high-order demo code"
   homepage "https://github.com/datafl4sh/hho-demo-1d"
+  head "https://github.com/datafl4sh/hho-demo-1d.git"
   url "https://github.com/datafl4sh/hho-demo-1d/archive/1.0.2.tar.gz"
   version "1.0.2"
   sha256 "b02188310596237deb76568214b8240adaf4138f60d7799b2532e432f5c0a3c9"
