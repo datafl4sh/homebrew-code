@@ -3,9 +3,9 @@ class Silo < Formula
   homepage "https://wci.llnl.gov/simulation/computer-codes/silo"
   #url "https://wci.llnl.gov/sites/wci/files/2021-01/silo-4.10.2-bsd.tgz"
   #sha256 "4b901dfc1eb4656e83419a6fde15a2f6c6a31df84edfad7f1dc296e01b20140e"
-  url "https://wci.llnl.gov/sites/wci/files/2021-01/silo-4.10.2.tgz"
-  sha256 "3af87e5f0608a69849c00eb7c73b11f8422fa36903dd14610584506e7f68e638"
-  revision 4
+  url "https://wci.llnl.gov/sites/wci/files/2021-09/silo-4.11.tgz"
+  sha256 "ab936c1f4fc158d9fdc4415965f7d9def7f4abeca596fe5a25bd8485654898ac"
+  revision 6
 
 #  bottle do
 #    sha256 "624de8ce662b6ce4f51cd100faf7c212ea7ad745ee66965c6cb0c045dddc830d" => :sierra
@@ -20,7 +20,7 @@ class Silo < Formula
   #depends_on :x11 => :optional
   #depends_on gcc
   depends_on "readline"
-  depends_on "hdf5" => :recommended
+  #depends_on "hdf5" => :recommended
   depends_on "gfortran"
 
   def install
@@ -30,7 +30,7 @@ class Silo < Formula
     #args << "--enable-install-lite-headers" if build.with? "lite-headers"
     args << "--enable-shared" if build.without? "static"
     args << "--enable-x" if build.with? "x11"
-    args << "--with-hdf5=#{Formula["hdf5"].opt_prefix}" if build.with? "hdf5"
+    #args << "--with-hdf5=#{Formula["hdf5"].opt_prefix}" if build.with? "hdf5"
 
     ENV.append "LDFLAGS", "-L#{Formula["readline"].opt_lib} -lreadline"
     system "./configure", *args
@@ -42,7 +42,7 @@ class Silo < Formula
     end
   end
 
-  patch :DATA
+  #patch :DATA
 
   test do
     (testpath/"test.c").write <<-EOS.undent
@@ -72,22 +72,22 @@ class Silo < Formula
     system "./test"
   end
 end
-__END__
-diff --git a/src/hdf5_drv/silo_hdf5.c b/src/hdf5_drv/silo_hdf5.c
-index 6fd99ec..aa703a4 100644
---- a/src/hdf5_drv/silo_hdf5.c
-+++ b/src/hdf5_drv/silo_hdf5.c
-@@ -15776,11 +15776,11 @@ db_hdf5_SortObjectsByOffset(DBfile *_dbfile, int nobjs,
-             H5O_info_t oinfo;
-             hid_t oid;
-             if ((oid=H5Oopen(dbfile->cwg, names[i], H5P_DEFAULT))<0 ||
--                 H5Oget_info(oid, &oinfo)<0 ||
-+                 H5Oget_info1(oid, &oinfo)<0 ||
-                  H5Oclose(oid)<0)
-                 iop[i].offset = HADDR_MAX;
--            else
--                iop[i].offset = oinfo.addr;
-+            //else
-+            //    iop[i].offset = oinfo.addr;
-         }
-     }
+#__END__
+#diff --git a/src/hdf5_drv/silo_hdf5.c b/src/hdf5_drv/silo_hdf5.c
+#index 6fd99ec..aa703a4 100644
+#--- a/src/hdf5_drv/silo_hdf5.c
+#+++ b/src/hdf5_drv/silo_hdf5.c
+#@@ -15776,11 +15776,11 @@ db_hdf5_SortObjectsByOffset(DBfile *_dbfile, int nobjs,
+#             H5O_info_t oinfo;
+#             hid_t oid;
+#             if ((oid=H5Oopen(dbfile->cwg, names[i], H5P_DEFAULT))<0 ||
+#-                 H5Oget_info(oid, &oinfo)<0 ||
+#+                 H5Oget_info1(oid, &oinfo)<0 ||
+#                  H5Oclose(oid)<0)
+#                 iop[i].offset = HADDR_MAX;
+#-            else
+#-                iop[i].offset = oinfo.addr;
+#+            //else
+#+            //    iop[i].offset = oinfo.addr;
+#         }
+#     }
